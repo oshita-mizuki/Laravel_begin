@@ -4,7 +4,7 @@ services:
  # ---------------------------------
  # laravelを動かすコンテナ
  # ---------------------------------
- app:
+ app_laravel_project:
    # どのポートを開いて繋ぐか。下記はコンテナの80番ポートを開いて、ホストの80番につなぐ
    ports:
      - "7008:80"
@@ -16,12 +16,12 @@ services:
    # ./src は docker-composer.yml のディレクトリ直下にある src を設定している
    # コンテナが作成されると src ディレクトリからコンテナの /var/www/html にアクセスすることができる
    volumes:
-     - ./src:/var/www/html
+     - ./html:/var/www/html
 
 # ----------------------------------
 # MySQLを動かすコンテナ
 # ----------------------------------
- db:
+ db_laravel_project:
    # Docker HubからMySQL5.7の公式イメージをダウンロードしてくる指定
    image: mysql:5.7
    container_name: db-host
@@ -41,13 +41,16 @@ services:
    volumes:
      - ./docker/db/data:/var/lib/mysql
      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+   # ポートが被らないように3306以外の数字を使う
    ports:
      - 14406:3306
+   # 3306以外の数字を使う場合、起動時にコマンドが必要となる
+   command: --port 14406 
 
 # ----------------------------------
 # phpmyadminを動かすコンテナ
 # ----------------------------------
- phpmyadmin:
+ phpmyadmin_laravel_project:
    image: phpmyadmin/phpmyadmin
    # コンテナの名前を指定
    container_name: laravel_phpmyadmin
@@ -57,7 +60,8 @@ services:
      - 4501:80
    environment:
      - PMA_ARBITRARY=1
-     - PMA_HOST=db-host
+     # 3306以外の数字を使う場合、ポート指定を行う
+     - PMA_HOST=db-host:14406
      - PMA_USER=root
      - PMA_PASSWORD=root
    links:

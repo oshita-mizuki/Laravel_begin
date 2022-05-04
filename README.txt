@@ -1,45 +1,26 @@
-[ubuntu設定]　※文字コードをutf-8にする
-# 1．パッケージ情報の更新
-sudo apt update
-sudo apt upgrade
-
-# 2．日本語言語パックのインストール
-sudo apt -y install language-pack-ja
-
-# 3．ロケールを日本語に設定
-sudo update-locale LANG=ja_JP.UTF8
-
-# 4．ここでいったん終了してから、Ubuntuを再起動
-
-# 5．タイムゾーンをJSTに設定
-sudo dpkg-reconfigure tzdata
-
-# 6．日本語マニュアルのインストール
-sudo apt -y install manpages-ja manpages-ja-dev
-
 [環境構築]
 ○ドッカー起動
 docker-compose up -d
 
 ○laravelインストール
-composer create-project --prefer-dist laravel/laravel project
+docker compose exec app_laravel_project composer create-project --prefer-dist laravel/laravel project
 
-○.env書き換え
-project/.envのDBの値を変更する
+○.env書き換え()
+src\project\.envのDBの値を変更する
 DB_CONNECTION=mysql
 DB_HOST=db-host
-DB_PORT=3306
+DB_PORT=14406
 DB_DATABASE=laravel_db
 DB_USERNAME=root
 DB_PASSWORD=root
 
 ○DB接続確認(マイグレ実行)
-php artisan migrate
-→エラーが出る場合は「php artisan migrate:fresh」を打ってみる
+docker compose exec -w /var/www/html/project app_laravel_project php artisan migrate
+→エラーが出る場合は以下を打ってみる
+docker compose exec -w /var/www/html/project app_laravel_project php artisan migrate:fresh
 
 ○権限オール7
-cd ..
-chmod -R 777 project
+docker compose exec -w /var/www/html app_laravel_project chmod 777 project
 
 [DB作成]
 ○テーブルの定義を行う
@@ -81,5 +62,26 @@ Route::resource('XXX', XXXController::class);
 
 ○web.config修正うまくいっているか確認(ルート確認)
 php artisan route:list
+
+[ubuntu設定]　※文字コードをutf-8にする
+# 1．パッケージ情報の更新
+sudo apt update
+sudo apt upgrade
+
+# 2．日本語言語パックのインストール
+sudo apt -y install language-pack-ja
+
+# 3．ロケールを日本語に設定
+sudo update-locale LANG=ja_JP.UTF8
+
+# 4．ここでいったん終了してから、Ubuntuを再起動
+
+# 5．タイムゾーンをJSTに設定
+sudo dpkg-reconfigure tzdata
+
+# 6．日本語マニュアルのインストール
+sudo apt -y install manpages-ja manpages-ja-dev
+
+
 
 
