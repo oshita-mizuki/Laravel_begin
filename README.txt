@@ -20,7 +20,7 @@ docker compose exec -w /var/www/html/project app_laravel_project php artisan mig
 docker compose exec -w /var/www/html/project app_laravel_project php artisan migrate:fresh
 
 ○権限オール7
-docker compose exec -w /var/www/html app_laravel_project chmod 777 project
+docker compose exec -w /var/www/html app_laravel_project chmod -R 777 project
 
 [DB作成]
 ○テーブルの定義を行う
