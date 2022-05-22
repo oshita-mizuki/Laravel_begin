@@ -64,5 +64,3 @@ services:
      - PMA_HOST=db-host:14406
      - PMA_USER=root
      - PMA_PASSWORD=root
-   links:
-     - mysql
