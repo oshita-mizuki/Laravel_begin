@@ -5,7 +5,10 @@ docker-compose up -d
 ○laravelインストール
 docker compose exec app_laravel_project composer create-project --prefer-dist laravel/laravel project
 
-○.env書き換え()
+○権限オール7
+docker compose exec -w /var/www/html app_laravel_project chmod -R 777 project
+
+○.env書き換え
 html\project\.envのDBの値を変更する
 DB_CONNECTION=mysql
 DB_HOST=db-host
@@ -13,9 +16,6 @@ DB_PORT=14406
 DB_DATABASE=laravel_db
 DB_USERNAME=root
 DB_PASSWORD=root
-
-○権限オール7
-docker compose exec -w /var/www/html app_laravel_project chmod -R 777 project
 
 ○DB接続確認(マイグレ実行)
 docker compose exec -w /var/www/html/project app_laravel_project php artisan migrate
