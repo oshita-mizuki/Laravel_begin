@@ -13,7 +13,7 @@ use App\Http\Controllers\TestController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::resource('Test', TestController::class);
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,3 +21,6 @@ Route::get('/', function () {
 Route::get('/tech', function () {
     return view('welcometech');
   });
+Route::resource('Test', TestController::class);
+Route::get('office_masters',[App\Http\Controllers\OfficeMasterController::class,'index']);
+Route::post('office_masters',[App\Http\Controllers\OfficeMasterController::class,'index']);
