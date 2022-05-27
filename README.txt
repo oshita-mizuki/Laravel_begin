@@ -38,6 +38,7 @@ php artisan make:seeder XXXs
 →project/database/seeders/XXXs.php　が出来る
 　ここのrun()にダミーデータを記載する(便利機能：モデルファクトリ)
 　use App\Models\XXX;　の記述が必要
+   use Illuminate\Support\Facades\DB; ←も必要！！
 
 project/database/seeders/DatabaseSeeder.phpn以下を追記する。
         $this->call([
@@ -56,14 +57,16 @@ php artisan make:controller XXXController
 ○DBと紐づけ
 php artisan make:controller XXXController --model=XXX --resource
 
-○web.config修正
+○web.php修正
 use App\Http\Controllers\XXXController;
 Route::resource('XXX', XXXController::class);
 
-○web.config修正うまくいっているか確認(ルート確認)
+○web.php修正うまくいっているか確認(ルート確認)
 php artisan route:list
 
 [ubuntu設定]　※文字コードをutf-8にする
+docker run -it ubuntu
+
 # 1．パッケージ情報の更新
 sudo apt update
 sudo apt upgrade
